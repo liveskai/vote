@@ -124,7 +124,7 @@
 		},
 		{
 			"Name": "pv_vote_map_enabled",
-			"DefaultValue": "1" // 1: users can use !vote | 0: users cant use !vote
+			"DefaultValue": "0" // 1: users can use !vote | 0: users cant use !vote
 		},
 		{
 			"Name": "pv_map_time_frac",
