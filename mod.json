@@ -116,7 +116,7 @@
 		},
 		{
 			"Name": "pv_balance_at_map_end",
-			"DefaultValue": "0" // 1: shuffle teams by skill at end of map | 0: do not change teams at end of map
+			"DefaultValue": "1" // 1: shuffle teams by skill at end of map | 0: do not change teams at end of map
 		},
 		{
 			"Name": "pv_balance_percentage",
@@ -132,7 +132,7 @@
 		},
 		{
 			"Name": "pv_map_map_propose_amount",
-			"DefaultValue": "6" // 地图选择数量
+			"DefaultValue": "0" // 地图选择数量
 		},
 		{
 			"Name": "pv_maps",//地图列表
@@ -175,6 +175,13 @@
 			"RunOn": "SERVER && MP",
 			"ServerCallback": {
 				"After": "WelcomeInit"
+			}
+		},
+		{
+			"Path": "takyon_votemap.nut",
+			"RunOn": "SERVER && MP",
+			"ServerCallback": {
+				"After": "VoteMapInit"
 			}
 		},
 		{
