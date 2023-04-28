@@ -23,9 +23,9 @@ void function RulesInit(){
      */
 
     // string rule99 = "this is your rule"
-    string rule1 = "[1] Takyon is poggers, ReimuYakumo 汉化"
-    string rule2 = "[2] 这服管理员懒到没写规则"
-    string rule3 = "[3] chicken nugget"
+    string rule1 = "QQ群456665285"
+    string rule2 = "QQ群456665285"
+    string rule3 = "QQ群456665285"
 
     // add rules to the rule builder
     // dont forget the "\n" to add a new line, also dont put a + after the last rule
