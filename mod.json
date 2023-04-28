@@ -178,13 +178,6 @@
 			}
 		},
 		{
-			"Path": "takyon_votemap.nut",
-			"RunOn": "SERVER && MP",
-			"ServerCallback": {
-				"After": "VoteMapInit"
-			}
-		},
-		{
 			"Path": "takyon_votebalance.nut",
 			"RunOn": "SERVER && MP",
 			"ServerCallback": {
