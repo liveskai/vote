@@ -116,7 +116,7 @@
 		},
 		{
 			"Name": "pv_balance_at_map_end",
-			"DefaultValue": "1" // 1: shuffle teams by skill at end of map | 0: do not change teams at end of map
+			"DefaultValue": "0" // 游戏结束后是否按KD平衡队伍
 		},
 		{
 			"Name": "pv_balance_percentage",
