@@ -63,7 +63,7 @@ global const string ADMIN_BALANCED = "一位管理员使用 K/D 平衡了队伍"
 
 // map vote
 global const string MAPS_NOT_PROPOSED = "该地图尚不可被指定"
-global const string MAP_VOTE_USAGE = "输入 !vote <地图前数字> 以选出下一张地图"
+global const string MAP_VOTE_USAGE = " "
 global const string ADMIN_VOTED_MAP = "管理员将下一张地图设置为了 "
 global const string MAP_NOT_GIVEN = "没有给定地图"
 global const string MAP_NUMBER_NOT_FOUND = "该序号没有对应地图"
