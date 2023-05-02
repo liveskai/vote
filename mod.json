@@ -120,7 +120,7 @@
 		},
 		{
 			"Name": "pv_balance_percentage",
-			"DefaultValue": "0.5" // how many people are needed to pass the balance vote in percent
+			"DefaultValue": "0.2" // how many people are needed to pass the balance vote in percent
 		},
 		{
 			"Name": "pv_vote_map_enabled",
