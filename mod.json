@@ -136,7 +136,7 @@
 		},
 		{
 			"Name": "pv_maps",//地图列表
-			"DefaultValue": "mp_wargames,mp_angel_city,mp_black_water_canal,mp_colony02,mp_complex3,mp_drydock,mp_eden,mp_glitch,mp_grave,mp_homestead,mp_thaw,mp_rise"
+			"DefaultValue": "mp_wargames,mp_angel_city,mp_black_water_canal,mp_colony02,mp_complex3,mp_drydock,mp_eden,mp_glitch,mp_grave,mp_homestead,mp_thaw,mp_rise,mp_relic02"
 		},
 		{
 			"Name": "pv_welcome_enabled",
