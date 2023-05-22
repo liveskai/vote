@@ -33,7 +33,7 @@ global const string PLAYER_IS_NULL = "发生了错误，玩家可能已离开服
 global const string MESSAGE_SENT_TO_PLAYER = "消息已发送至 " // remember the space at the end
 
 // help
-global const string HELP_MESSAGE = "在聊天框输入 !help 获取帮助"
+global const string HELP_MESSAGE = "QQ群456665285 在聊天框输入 !help 获取帮助"
 
 // vote extend
 global const string ADMIN_EXTENDED = "管理员增加了地图游玩时间"
