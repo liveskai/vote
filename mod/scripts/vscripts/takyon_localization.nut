@@ -1,8 +1,3 @@
-// Since there cant be localization in a sever sided mod, this will sort of be one
-// Here are all the basic strings
-// Change these based on your servers language
-
-// general
 global const string ALREADY_VOTED = "您已经进行了投票"
 global const string MISSING_PRIVILEGES = "需要权限以进行该操作"
 global const string COMMAND_DISABLED = "该命令已经被禁用"
@@ -70,5 +65,5 @@ global const string ADMIN_VOTED_MAP = "管理员将下一张地图设置为了 "
 global const string MAP_NOT_GIVEN = "没有给定地图"
 global const string MAP_NUMBER_NOT_FOUND = "该序号没有对应地图"
 global const string MAP_YOU_VOTED = "您投票给了 " // remember the space at the end
-global const string MAP_VOTE_HEADER = "投票換圖" // have to be traditional chinese to fit game font!
-global const string MAP_VOTE_USAGE_PROPOSED = "在聊天框输入 !vote 地图数字 以进行投票。\x1b[38;2;0;220;220m(例：!vote 2)"
+global const string MAP_VOTE_HEADER = "投票换图" // have to be traditional chinese to fit game font!
+global const string MAP_VOTE_USAGE_PROPOSED = "加群反馈问题\x1b[38;2;0;220;220m(QQ群456665285)"
