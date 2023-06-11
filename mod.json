@@ -120,7 +120,7 @@
 		},
 		{
 			"Name": "pv_balance_percentage",
-			"DefaultValue": "0.2" // 平衡队友所需玩家比例
+			"DefaultValue": "0.1" // 平衡队伍所需玩家比例
 		},
 		{
 			"Name": "pv_vote_map_enabled",
