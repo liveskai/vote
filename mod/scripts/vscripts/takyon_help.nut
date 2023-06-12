@@ -14,7 +14,7 @@ bool useGeneratedHelp = true // will auto-generate text for the help command. se
 array<string> spawnedPlayers = []
 array<string> cmdArr = []
 
-string commands =   "可查询命令：[ !skip, !extend, !kick, !rules, !switch, !balance, !ping, !vote ]"
+string commands =   "可使用命令：[ !skip, !extend, !kick, !rules, !switch, !balance, !ping, !vote ] \n !skip 跳过地图 \n !switch 更换队伍 \n !balance 平衡队伍，被压家时可用"
 
 void function HelpInit(){
     // add commands here. i added some varieants for accidents, however not for brain damage. do whatever :P
