@@ -9,7 +9,7 @@ float playerVotePercentage = 0.9 // percentage of how many people on the server 
 array<string> playerKickVoteYesNames = []
 array<string> playerKickVoteNoNames = []
 string playerVotedForKick = ""
-int minimumOnlinePlayers = 5 // minimum required players online to kick a person. this should be kept high cause if there are only 3, 2 people are enough to kick
+int minimumOnlinePlayers = 0 // minimum required players online to kick a person. this should be kept high cause if there are only 3, 2 people are enough to kick
 
 bool saveKickedPlayers = true // true: kicked players cant rejoin the same match | false: kicked players can just rejoin
 array<string> kickedPlayers = [] // kicked players are saved here. this will prevent them from rejoining the same match. kicked players are reset on mapchange!!!
@@ -25,6 +25,7 @@ void function VoteKickInit(){
     playerVotePercentage = GetConVarFloat( "pv_kick_percentage" )
     minimumOnlinePlayers = GetConVarInt( "pv_kick_min_players" )
     saveKickedPlayers = GetConVarBool( "pv_kick_save_players" )
+
 }
 
 /*
@@ -34,13 +35,14 @@ void function VoteKickInit(){
 bool function CommandKick(entity player, array<string> args){
     if(!IsLobby()){
         printl("USER TRIED KICKING")
-        
+
         // no player name given
         if(args.len() == 0){
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + NO_PLAYERNAME_FOUND, false)
+            GetName(player)
+            Chat_ServerPrivateMessage(player, "例如 !kick Ni_Hao_C",false)
             return false
         }
-
         // vote kick disabled
         if(!playerVoteKickEnabled){
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + COMMAND_DISABLED, false)
@@ -56,7 +58,7 @@ bool function CommandKick(entity player, array<string> args){
         // get the full player name based on substring. we can be sure this will work because above we check if it can find exactly one matching name... or at least i hope so
         string fullPlayerName = GetFullPlayerNameFromSubstring(args[0])
 
-        // players cannot kick themselves 
+       // players cannot kick themselves
         if(fullPlayerName == player.GetPlayerName()){
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + CANT_KICK_YOURSELF, false)
             return false
@@ -75,8 +77,8 @@ bool function CommandKick(entity player, array<string> args){
                 Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + MISSING_PRIVILEGES, false)
                 return false
             }
-            
-            ServerCommand("kick " + fullPlayerName) 
+
+            ServerCommand("kick " + fullPlayerName)
             playerKickVoteYesNames.clear()
             kickedPlayers.append(fullPlayerName)
             Chat_ServerPrivateMessage(player, "\x1b[38;2;0;128;0m" + KICKED_PLAYER + fullPlayerName, false)
@@ -99,7 +101,8 @@ bool function CommandKick(entity player, array<string> args){
             // notify
             for(int i = 0; i < GetPlayerArray().len(); i++){
                 SendHudMessageBuilder(GetPlayerArray()[i], player.GetPlayerName() + PLAYER_WANTS_TO_KICK_PLAYER + fullPlayerName + HOW_TO_KICK, 255, 200, 200)
-            }
+                NSSendInfoMessageToPlayer( player, "使用" + "#SCOREBOARD_FOCUS" +"同意")
+                }
             CheckIfEnoughKickVotes()
         }
         else{
@@ -119,7 +122,7 @@ bool function CommandYes(entity player, array<string> args){
     arr.extend(playerKickVoteNoNames)
     if(!PlayerHasVoted(player, arr)){
         playerKickVoteYesNames.append(player.GetPlayerName())
-        CheckIfEnoughKickVotes()    
+        CheckIfEnoughKickVotes()
     }
     else{
         Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + ALREADY_VOTED, false)
@@ -137,7 +140,7 @@ bool function CommandNo(entity player, array<string> args){
     arr.extend(playerKickVoteNoNames)
     if(!PlayerHasVoted(player, arr)){
         playerKickVoteNoNames.append(player.GetPlayerName())
-        CheckIfEnoughKickVotes()    
+        CheckIfEnoughKickVotes()
     }
     else{
         Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + ALREADY_VOTED, false)
@@ -153,7 +156,7 @@ void function CheckIfEnoughKickVotes(){
     // 90% need to have voted and there need to be more yes than no votes
     bool moreYesThanNo = playerKickVoteYesNames.len() > playerKickVoteNoNames.len()
     bool enoughPeopleVoted = (1.0 * playerKickVoteYesNames.len() + playerKickVoteNoNames.len()) > (GetPlayerArray().len() * playerVotePercentage)
-    if(moreYesThanNo && enoughPeopleVoted){ 
+    if(moreYesThanNo && enoughPeopleVoted){
         // check if player is still in server
 
         ServerCommand("kick " + playerVotedForKick)
@@ -171,7 +174,7 @@ void function CheckIfEnoughKickVotes(){
 }
 
 void function OnPlayerConnectedKick(entity player){
-    // check if connected player got kicked this game 
+    // check if connected player got kicked this game
     if(saveKickedPlayers)
         if(kickedPlayers.find(player.GetPlayerName()) != -1) // if player is in kickedPlayers
             ServerCommand("kick " + player.GetPlayerName())
@@ -182,3 +185,12 @@ void function OnPlayerConnectedKick(entity player){
         // TODO mabye this for havin multiple votes?
     //}
 }*/
+
+
+
+//==========================================================
+void function GetName(entity player){
+foreach(entity p in GetPlayerArray()){
+    Chat_ServerPrivateMessage(player,  p.GetPlayerName(), true , false)
+}
+}
