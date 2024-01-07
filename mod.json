@@ -132,7 +132,7 @@
 		},
 		{
 			"Name": "pv_map_map_propose_amount",
-			"DefaultValue": "6" // 地图选择数量
+			"DefaultValue": "0" // 地图选择数量
 		},
 		{
 			"Name": "pv_maps",//地图列表
