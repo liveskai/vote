@@ -65,5 +65,5 @@ global const string ADMIN_VOTED_MAP = "管理员将下一张地图设置为了 "
 global const string MAP_NOT_GIVEN = "没有给定地图"
 global const string MAP_NUMBER_NOT_FOUND = "该序号没有对应地图"
 global const string MAP_YOU_VOTED = "您投票给了 " // remember the space at the end
-global const string MAP_VOTE_HEADER = "投票换图" // have to be traditional chinese to fit game font!
+global const string MAP_VOTE_HEADER = "投票" // have to be traditional chinese to fit game font!
 global const string MAP_VOTE_USAGE_PROPOSED = "加群反馈问题\x1b[38;2;0;220;220m(QQ群456665285)"
