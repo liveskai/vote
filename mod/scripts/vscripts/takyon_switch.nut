@@ -26,89 +26,93 @@ void function SwitchInit(){
  */
 
 bool function CommandSwitch(entity player, array<string> args){
-    if(!IsLobby() && !IsFFAGame()){
-        printl("USER USED SWITCH")
+	if(!IsLobby() && !IsFFAGame()){
+		printl("USER USED SWITCH")
 
-        // check if enabled
-        if(!switchEnabled){
-            Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + COMMAND_DISABLED, false)
-            return false
-        }
+		// check if enabled
+		if(!switchEnabled){
+			Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + COMMAND_DISABLED, false)
+			return false
+		}
 
-        // no name or force given so it cant be an admin switch. -> switch player that requested
-        if(args.len() < 1){
-            // check if player has already switched too often
-            if(FindAllSwitches(player) >= maxSwitches){
-                Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCHED_TOO_OFTEN, false)
-                return false
-            }
+		// no name or force given so it cant be an admin switch. -> switch player that requested
+		if(args.len() < 1){
+			// check if player has already switched too often
+			if(FindAllSwitches(player) >= maxSwitches){
+				Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCHED_TOO_OFTEN, false)
+				return false
+			}
 
-            switchedPlayers.append(player.GetPlayerName())
-            SwitchPlayer(player)
-            return true
-        }
+			switchedPlayers.append(player.GetPlayerName())
+			SwitchPlayer(player)
+			return true
+		}
 
-        // no player name given
-        if(args.len() == 1){
-            Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + NO_PLAYERNAME_FOUND, false)
-            return false
-        }
+		// no player name given
+		if(args.len() == 1){
+			Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + NO_PLAYERNAME_FOUND, false)
+			return false
+		}
 
-        // admin force switch
-        if(args.len() >= 2 && args[0] == "force"){
-            // Check if user is admin
-            if(!IsPlayerAdmin(player)){
-                Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + MISSING_PRIVILEGES, false)
-                return false
-            }
+		// admin force switch
+		if(args.len() >= 2 && args[0] == "force"){
+			// Check if user is admin
+			if(!IsPlayerAdmin(player)){
+				Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + MISSING_PRIVILEGES, false)
+				return false
+			}
 
-            // player not on server or substring unspecific
-            if(!CanFindPlayerFromSubstring(args[1])){
-                Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + CANT_FIND_PLAYER_FROM_SUBSTRING + args[1], false)
-                return false
-            }
+			// player not on server or substring unspecific
+			if(!CanFindPlayerFromSubstring(args[1])){
+				Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + CANT_FIND_PLAYER_FROM_SUBSTRING + args[1], false)
+				return false
+			}
 
-            // get the full player name based on substring. we can be sure this will work because above we check if it can find exactly one matching name... or at least i hope so
-            string fullPlayerName = GetFullPlayerNameFromSubstring(args[1])
+			// get the full player name based on substring. we can be sure this will work because above we check if it can find exactly one matching name... or at least i hope so
+			string fullPlayerName = GetFullPlayerNameFromSubstring(args[1])
 
-            // give player and admin feedback
-            SendHudMessageBuilder(player, fullPlayerName + SWITCH_ADMIN_SUCCESS, 255, 200, 200)
-            SendHudMessageBuilder(GetPlayerFromName(fullPlayerName), SWITCHED_BY_ADMIN, 255, 200, 200)
-            SwitchPlayer(GetPlayerFromName(fullPlayerName), true)
-        }
-    }
-    return true
+			// give player and admin feedback
+			SendHudMessageBuilder(player, fullPlayerName + SWITCH_ADMIN_SUCCESS, 255, 200, 200)
+			SendHudMessageBuilder(GetPlayerFromName(fullPlayerName), SWITCHED_BY_ADMIN, 255, 200, 200)
+			SwitchPlayer(GetPlayerFromName(fullPlayerName), true)
+		}
+	}
+	return true
 }
 
-/*
- *  HELPER FUNCTIONS
- */
 
-void function SwitchPlayer(entity player, bool force = false){
+void function SwitchPlayer(entity player, bool force = false)
+{
     int imcPlayerAmount = GetPlayerArrayOfTeam(TEAM_IMC).len()
     int militiaPlayerAmount = GetPlayerArrayOfTeam(TEAM_MILITIA).len()
 
     // switch from imc to militia
-    if(player.GetTeam() == TEAM_IMC){
+    if(player.GetTeam() == TEAM_IMC)
+	{
         printl("IMC: diff: " + (militiaPlayerAmount - imcPlayerAmount))
         // check if difference between team sizes is too big
         if(!CanPlayerSwitch(player, imcPlayerAmount, militiaPlayerAmount) && !force){
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCH_TOO_MANY_PLAYERS, false)
             return
         }
+		if (GameRules_GetTeamScore(TEAM_IMC) < GameRules_GetTeamScore(TEAM_MILITIA) )
+			return
         SetTeam(player, TEAM_MILITIA)
         SendHudMessageBuilder(player, SWITCH_SUCCESS, 200, 200, 255)
         return
     }
 
     // switch from militia to imc
-    if(player.GetTeam() == TEAM_MILITIA){
+    if(player.GetTeam() == TEAM_MILITIA)
+	{
         printl("MILIT: diff: " + (imcPlayerAmount - militiaPlayerAmount))
         // check if difference between team sizes is too big
         if(!CanPlayerSwitch(player, imcPlayerAmount, militiaPlayerAmount) && !force){
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCH_TOO_MANY_PLAYERS, false)
             return
         }
+		if (GameRules_GetTeamScore(TEAM_MILITIA) < GameRules_GetTeamScore(TEAM_IMC) )
+			return
         SetTeam(player, TEAM_IMC)
         SendHudMessageBuilder(player, SWITCH_SUCCESS, 200, 200, 255)
         return
