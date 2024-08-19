@@ -122,7 +122,7 @@ bool function CommandVote(entity player, array<string> args){
 
         // check if voting is enabled
         if(!voteMapEnabled){
-            Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m[PlayerVote] \x1b[0m" + COMMAND_DISABLED, false, false)
+            Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m[超好玩] \x1b[0m" + COMMAND_DISABLED, false, false)
             return false
         }
 
