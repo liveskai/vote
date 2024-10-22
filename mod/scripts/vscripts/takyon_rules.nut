@@ -29,8 +29,8 @@ void function RulesInit(){
     string rule4 = "[4] QQ群456665285"
     string rule5 = "[5] QQ群456665285"
     string rule6 = "[6] QQ群456665285"
-    string rule7 = "[7] QQ群456665285"
-    string rule8 = "[8] QQ群456665285"
+    string rule7 = "[7] 控制台输入killon开启击杀回放"
+    string rule8 = "[8] 控制台输入killon开启击杀回放"
 
     // add rules to the rule builder
     // dont forget the "\n" to add a new line, also dont put a + after the last rule

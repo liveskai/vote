@@ -95,10 +95,10 @@ void function SwitchPlayer(entity player, bool force = false)
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCH_TOO_MANY_PLAYERS, false)
             return
         }
-		if (GameRules_GetTeamScore(TEAM_IMC) < GameRules_GetTeamScore(TEAM_MILITIA) )
-			return
         SetTeam(player, TEAM_MILITIA)
         SendHudMessageBuilder(player, SWITCH_SUCCESS, 200, 200, 255)
+		if (GameRules_GetTeamScore(TEAM_IMC) < GameRules_GetTeamScore(TEAM_MILITIA) || imcPlayerAmount < militiaPlayerAmount )
+			KillPlayer(player,0)
         return
     }
 
@@ -111,10 +111,11 @@ void function SwitchPlayer(entity player, bool force = false)
             Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCH_TOO_MANY_PLAYERS, false)
             return
         }
-		if (GameRules_GetTeamScore(TEAM_MILITIA) < GameRules_GetTeamScore(TEAM_IMC) )
-			return
+		
         SetTeam(player, TEAM_IMC)
         SendHudMessageBuilder(player, SWITCH_SUCCESS, 200, 200, 255)
+		if (GameRules_GetTeamScore(TEAM_IMC) > GameRules_GetTeamScore(TEAM_MILITIA) || imcPlayerAmount > militiaPlayerAmount )
+			KillPlayer(player,0)
         return
     }
 
