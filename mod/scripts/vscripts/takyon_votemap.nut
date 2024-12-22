@@ -256,7 +256,7 @@ void function ShowProposedMaps(entity player){
         localizedMsg.append( TryGetNormalizedMapName( map ) )
     // message player
     NSCreatePollOnPlayer( player, MAP_VOTE_HEADER, localizedMsg, 30.0 )
-    Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m[PlayerVote] \x1b[0m" + MAP_VOTE_USAGE_PROPOSED, false, false)
+    Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m[超好玩] \x1b[0m" + MAP_VOTE_USAGE_PROPOSED, false, false)
 
     // mark as player got message
     file.playerReceivedMapList[ player ] <- true
