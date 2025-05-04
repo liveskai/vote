@@ -1,7 +1,7 @@
 global function BalanceInit
 global function CommandBalance
 global function BalanceMapEnd
-
+global float BalanceTime=0
 bool balanceEnabled = true
 bool balanceAtMapEnd = false
 float balanceVotePercentage = 0.5 // percentage of how many people on the server need to have voted
@@ -84,19 +84,22 @@ bool function CommandBalance(entity player, array<string> args){
  *  HELPER FUNCTIONS
  */
 
-void function CheckIfEnoughBalanceVotes(bool force = false){
+void function CheckIfEnoughBalanceVotes(bool force = false)
+{
     // check if enough have voted if it wasn't forced to begin with
     if(playerBalanceVoteNames.len() >= (1.0 * GetPlayerArray().len() * balanceVotePercentage) || force) {
-        array<entity> _players = GetPlayerArray()
-        if(_players.len() < 1)
+        array<entity> players = GetPlayerArray()
+        if(players.len() < 1)
             return
-        Balance(_players)
+        Balance(players)
         // message everyone
-        for(int i = 0; i < GetPlayerArray().len(); i++){
+		BalanceTime=Time()
+        foreach ( player in players )
+		{
             if ( balanceTitanDamageBased )
-                SendHudMessageBuilder(GetPlayerArray()[i], BALANCED_TITANDAMAGE, 255, 200, 200)
+                SendHudMessageBuilder(player, BALANCED_TITANDAMAGE, 255, 200, 200)
             else            
-                SendHudMessageBuilder(GetPlayerArray()[i], BALANCED, 255, 200, 200)
+                SendHudMessageBuilder(player, BALANCED, 255, 200, 200)
         }
         playerBalanceVoteNames.clear()
     }
