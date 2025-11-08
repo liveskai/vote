@@ -39,10 +39,9 @@ bool function CommandSkip(entity player, array<string> args){
                 return false
             }
 
-            for(int i = 0; i < GetPlayerArray().len(); i++){
-                SendHudMessageBuilder(GetPlayerArray()[i], ADMIN_SKIPPED, 255, 200, 200)
-                Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m[PlayerVote] \x1b[0m" + ADMIN_SKIPPED, false, false)
-            }
+            foreach(ent in GetPlayerArray())
+                SendHudMessageBuilder(ent, ADMIN_SKIPPED, 255, 200, 200)
+			Chat_ServerBroadcast("\x1b[38;2;220;0;0m[PlayerVote] \x1b[0m" + ADMIN_SKIPPED)
             CheckIfEnoughSkipVotes(true)
             return true
         }

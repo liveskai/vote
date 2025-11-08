@@ -1,3 +1,4 @@
+untyped
 global function SwitchInit
 global function CommandSwitch
 
@@ -6,8 +7,7 @@ bool adminSwitchPlayerEnabled = true // true: admins can switch users | false: a
 int maxPlayerDiff = 1 // how many more players one team can have over the other.
 int maxSwitches = 2 // how many times a player can switch teams per match. should be kept low so players cant spam to get an advantage
 
-array<string> switchedPlayers = [] // array of players who have switched their team. does not include players switched by admin
-
+array<string>exitlist
 void function SwitchInit(){
     // add commands here. i added some varieants for accidents, however not for brain damage. do whatever :P
     AddClientCommandCallback("!switch", CommandSwitch)
@@ -19,11 +19,20 @@ void function SwitchInit(){
     adminSwitchPlayerEnabled = GetConVarBool( "pv_switch_admin_switch_enabled" )
     maxPlayerDiff = GetConVarInt( "pv_switch_max_player_diff" )
     maxSwitches = GetConVarInt( "pv_max_switches" )
+	AddCallback_OnClientConnected( SetSwitchs )
+	AddCallback_OnClientDisconnected( Record )
 }
 
-/*
- *  COMMAND LOGIC
- */
+void function SetSwitchs(entity player)
+{
+	player.s.switchamount <- 0
+	if(exitlist.contains(player.GetUID()))
+		player.s.switchamount = 10
+}
+void function Record(entity player)
+{
+	exitlist.append(player.GetUID())
+}
 
 bool function CommandSwitch(entity player, array<string> args)
 {
@@ -42,7 +51,7 @@ bool function CommandSwitch(entity player, array<string> args)
 	if(args.len() < 1)
 	{
 		// check if player has already switched too often
-		if(FindAllSwitches(player) >= maxSwitches)
+		if(player.s.switchamount >= maxSwitches)
 		{
 			Chat_ServerPrivateMessage(player, "\x1b[38;2;220;0;0m" + SWITCHED_TOO_OFTEN, false)
 			return false
@@ -55,6 +64,12 @@ bool function CommandSwitch(entity player, array<string> args)
 				Chat_ServerPrivateMessage(player, "平衡一段时间后不可换队", false)
 				return false
 			}
+		if(GetCurrentPlaylistVarInt("max_players",0)/2 == GetPlayerArrayOfEnemies(player.GetTeam()).len() )
+		{
+			if(IsAlive(player))
+				KillPlayer(player,0)
+			return false
+		}
 		switchedPlayers.append(player.GetPlayerName())
 		SwitchPlayer(player)
 		return true
@@ -109,13 +124,4 @@ void function SwitchPlayer(entity player, bool force = false)
 	SendHudMessageBuilder(player, SWITCH_SUCCESS, 200, 200, 255)
 	if( myAmount-2 < youAmount && IsAlive( player ) )
 		KillPlayer(player,0)
-}
-
-int function FindAllSwitches(entity player){
-    int amount = 0
-    foreach (string name in switchedPlayers){
-        if(name == player.GetPlayerName())
-            amount++
-    }
-    return amount
 }
