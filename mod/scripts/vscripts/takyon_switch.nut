@@ -64,13 +64,12 @@ bool function CommandSwitch(entity player, array<string> args)
 				Chat_ServerPrivateMessage(player, "平衡一段时间后不可换队", false)
 				return false
 			}
-		if(GetCurrentPlaylistVarInt("max_players",0)/2 == GetPlayerArrayOfEnemies(player.GetTeam()).len() )
+		if(GetCurrentPlaylistVarInt("max_players",0)/2 <= GetPlayerArrayOfEnemies(player.GetTeam()).len() )
 		{
 			if(IsAlive(player))
 				KillPlayer(player,0)
 			return false
 		}
-		switchedPlayers.append(player.GetPlayerName())
 		SwitchPlayer(player)
 		return true
 	}
