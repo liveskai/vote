@@ -8,11 +8,9 @@ int maxPlayerDiff = 1 // how many more players one team can have over the other.
 int maxSwitches = 2 // how many times a player can switch teams per match. should be kept low so players cant spam to get an advantage
 
 array<string>exitlist
-void function SwitchInit(){
-    // add commands here. i added some varieants for accidents, however not for brain damage. do whatever :P
-    AddClientCommandCallback("!switch", CommandSwitch)
-    AddClientCommandCallback("!SWITCH", CommandSwitch)
-    AddClientCommandCallback("!Switch", CommandSwitch)
+void function SwitchInit()
+{
+    AddCallback_GameStateEnter( eGameState.Playing, AddSwitchCommand )//游戏开始一段时间后才能换队
 
     // ConVars
     switchEnabled = GetConVarBool( "pv_switch_enabled" )
@@ -23,6 +21,17 @@ void function SwitchInit(){
 	AddCallback_OnClientDisconnected( Record )
 }
 
+void function AddSwitchCommand()
+{
+	thread SwitchThread()
+}
+void function SwitchThread()
+{
+	wait 60
+    AddClientCommandCallback("!switch", CommandSwitch)
+    AddClientCommandCallback("!SWITCH", CommandSwitch)
+    AddClientCommandCallback("!Switch", CommandSwitch)
+}
 void function SetSwitchs(entity player)
 {
 	player.s.switchamount <- 0
@@ -64,7 +73,7 @@ bool function CommandSwitch(entity player, array<string> args)
 				Chat_ServerPrivateMessage(player, "平衡一段时间后不可换队", false)
 				return false
 			}
-		if(GetCurrentPlaylistVarInt("max_players",0)/2 <= GetPlayerArrayOfEnemies(player.GetTeam()).len() )
+		if(GetPlayerArrayOfEnemies(player.GetTeam()).len() >= GetCurrentPlaylistVarInt("max_players",0)/2 )
 		{
 			if(IsAlive(player))
 				KillPlayer(player,0)
