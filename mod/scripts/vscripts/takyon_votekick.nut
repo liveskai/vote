@@ -189,8 +189,10 @@ void function OnPlayerConnectedKick(entity player){
 
 
 //==========================================================
-void function GetName(entity player){
-foreach(entity p in GetPlayerArray()){
-    Chat_ServerPrivateMessage(player,  p.GetPlayerName(), true , false)
-}
+void function GetName(entity player)
+{
+	string name
+	foreach (p in GetPlayerArray())
+		name += p.GetPlayerName()+" "
+	Chat_ServerPrivateMessage( player, name, false )
 }

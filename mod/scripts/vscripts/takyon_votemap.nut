@@ -212,18 +212,21 @@ void function PostmatchMap(){ // change map before the server changes it lololol
 
 void function ChangeMapBeforeServer(){
     wait GAME_POSTMATCH_LENGTH - 1 // change 1 sec before server does
-    if(nextMap != "")
-        GameRules_ChangeMap(nextMap, GameRules_GetGameMode())
-    else
-    {
-        int mapIndex = rotationMaps.find( GetMapName() )
-        mapIndex += 1 // next map index, or if the map is not in playlist, this will change to first map
-        if( mapIndex == rotationMaps.len() ) // reached last map?
-            mapIndex = 0
-        string map = rotationMaps[mapIndex]
-
-        GameRules_ChangeMap(map, GameRules_GetGameMode())
-    }
+	string chanemap = "map "
+	if(nextMap != "")
+	{
+		chanemap += nextMap
+		ServerCommand(chanemap)
+	}	
+	else
+	{
+		int mapIndex = rotationMaps.find( GetMapName() )
+		mapIndex += 1 // next map index, or if the map is not in playlist, this will change to first map
+		if( mapIndex == rotationMaps.len() ) // reached last map?
+			mapIndex = 0
+		chanemap += rotationMaps[mapIndex]
+		ServerCommand(chanemap)
+	}
 }
 
 /*
