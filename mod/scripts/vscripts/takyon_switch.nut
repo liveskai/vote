@@ -130,6 +130,7 @@ void function SwitchPlayer(entity player, bool force = false)
         
 	SetTeam(player, otherteam)
 	SendHudMessageBuilder(player, SWITCH_SUCCESS, 200, 200, 255)
+	Chat_ServerBroadcast(player.GetPlayerName() + " 已切换队伍")
 	if( myAmount-2 < youAmount && IsAlive( player ) )
 		KillPlayer(player,0)
 }
